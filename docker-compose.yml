@@ -1,0 +1,23 @@
+services:
+  ctfd:
+    image: rootcauz/ai-ctfd:${AI_CTFD_VERSION}
+    ports:
+      - "8000:8000"
+      
+  #Basic Prompt Injection
+  challenge1: 
+    container_name: challenge1
+    image: rootcauz/ai-base:${AI_BASE_VERSION}
+    entrypoint: /usr/bin/bash /challenge/entrypoint.sh
+    ports:
+      - "9001:9001"
+    volumes:
+      - ./app/challenges/1/entrypoint.sh:/challenge/entrypoint.sh
+      - ./app/challenges/1/app.py:/challenge/app.py
+      - ./app/models:/challenge/models
+      - ./app/challenges/core.py:/challenge/core.py
+
+networks:
+  default:
+  internal:
+    internal: true
